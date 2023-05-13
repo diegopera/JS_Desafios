@@ -1,45 +1,164 @@
-let suma = 'Sumar';
-let resta = 'Restar';
-let multi = 'Multiplicar';
-let divi = 'Dividir';
-let resultado;
-let numberOne = parseInt(prompt('Ingresa el primer número de la operación'));
-if (isNaN(numberOne)) {
-    alert('Pone un número')
-    process.exit(1);
-}
-let numberTwo = parseInt(prompt('Ingresa el segundo número de la operación'));
-if (isNaN(numberTwo)) {
-    alert('Pone un número');
-    process.exit(1);
-}
-let operacion = prompt('Que operación queres hacer? Sumar, Restar, Multiplicar o Dividir?');
+/* Definicion de variables por tipo de producto (Categoria) */
 
-if ((operacion == 'Sumar') || (operacion == 'sumar')) {
-    resultado = numberOne + numberTwo;
-    alert('El resultado de la Suma del primero mas el segundo es de: ' + resultado);
-    for(let i= numberOne; i<= resultado; i++) {
-        alert("Contemos desde " + numberOne + " y hasta " + resultado + " yendo de uno en uno: " + i);
+/* Cursos */
+
+/* Difusores */
+let diffProd01Price = 450;
+let diffProd01Stock = 100;
+
+/* Accesorios */
+
+/* Perfuminas */
+let perfProd01Price = 570;
+let perfProd01Stock = 200;
+
+/* Velas */
+let candProd01Price = 700;
+let candProd01Stock = 500;
+
+/* Carrito */
+let totalAmountProd = 0;
+let totalPrice = 0;
+let montoDifu = 0;
+let montoPerfu = 0;
+let montoVelas = 0;
+let candlePurchase = 0;
+let perfPurchase = 0;
+let diffPurchase = 0;
+
+/* Login / Register */
+let userName;
+let userEmail;
+let userPassword;
+let userAddress;
+
+/* Definición Funciones */
+
+function userRegistry(NombreCompleto) {
+  alert(`Bienvenido al Sitio ${NombreCompleto}`);
+}
+
+/* Ejemplo Registro */
+
+userName = prompt("Ingrese su Nombre y Apellido");
+while (userName.length === 0){
+  alert("Ingrese un dato valido")
+  userName = prompt("Ingrese su Nombre y Apellido")
+}
+userEmail = prompt("Ingrese su correo electrónico");
+while (userEmail.length === 0){
+  alert("Ingrese un dato valido")
+  userEmail = prompt("Ingrese su correo electrónico")
+}
+userPassword = prompt("Ingrese su contraseña");
+while (userPassword.length === 0){
+  alert("Ingrese un dato valido")
+  userEmail = prompt("Ingrese una contraseña")
+}
+userAddress = prompt("Ingrese su dirección de envio");
+while (userAddress.length === 0){
+  alert("Ingrese un dato valido")
+  userEmail = prompt("Ingrese su correo electrónico")
+}
+userRegistry(userName);
+
+/* Ejemplo Carrito */
+
+function menu(){
+  let carritoOperacion = prompt("Ingrese los productos que desea agregar: \n 1 - Velas \n 2 - Difusores \n 3 - Perfuminas \n 4 - CheckOut \n 5 - Salir");
+    switch(carritoOperacion){
+      case "1":
+        candle();
+        break;
+      case "2":
+        difusor();
+        break;
+      case "3":
+        perfumina();
+        break;
+      case "4":
+        checkOut();
+        break;
+      case "5":
+        alert("Gracias por utilizar la plataforma");
+        break;
+      default:
+        alert("Ingrese una opcion de la lista");
+        menu();
     }
-}
-else if ((operacion == 'Restar') || (operacion == 'restar')) {
-    resultado = numberOne - numberTwo;
-    alert('El resultado de la Resta del primero menos el segundo es de: ' + resultado);
-}
-else if ((operacion == 'Multiplicar') || (operacion == 'multiplicar')) {
-    resultado = numberOne * numberTwo;
-    alert('El resultado de Multiplicar el primero por el segundo es de: ' + resultado);
-    for(let i= numberOne; i<= resultado; i+= numberOne) {
-        alert("Podemos hacer sumas consecutivas desde " + numberOne + " y hasta " + resultado + " : " + i);
+  }
+
+function candle(){
+  candlePurchase = parseInt(prompt(`Ingrese cantidad a comprar, precio unidad: $ ${candProd01Price}`));
+  if(candlePurchase === 0 ){
+    alert("No se ha seleccionado ninguna cantidad");
+    menu();
+  }
+  else{
+    if (candlePurchase <= candProd01Stock){
+      candProd01Stock -= candlePurchase; // reduzco cantidad a comprar del stock
+      totalAmountProd += candlePurchase; // agrego la cantidad de productos totales
+      montoVelas = candlePurchase * candProd01Price;
+      alert(`Gracias por comprar ${candlePurchase} Velas`);
+      menu();
     }
+    else{
+      alert(`No hay suficiente stock para la compra ingrese un valor menor o igual a ${candProd01Stock}`);
+      menu();    
+    }
+  }
 }
-else if (((operacion == 'Dividir') || (operacion == 'dividir')) && (numberTwo != 0)) {
-    resultado = numberOne / numberTwo;
-    alert('El resultado de Dividir el primero dividido el segundo es de: ' + resultado);
+
+function difusor(){
+  diffPurchase = parseInt(prompt(`Ingrese cantidad a comprar, precio unidad: $ ${diffProd01Price}`));
+  if(diffPurchase === 0 ){
+    alert("No se ha seleccionado ninguna cantidad");
+    menu();
+  }
+  else{
+    if (diffPurchase <= diffProd01Stock){
+      diffProd01Stock -= diffPurchase; // reduzco cantidad a comprar del stock
+      totalAmountProd += diffPurchase; // agrego la cantidad de productos totales
+      montoDifu = diffPurchase * diffProd01Price;
+      alert(`Gracias por comprar ${diffPurchase} Difusores`);
+      menu();
+    }
+    else{
+      alert(`No hay suficiente stock para la compra ingrese un valor menor o igual a ${diffProd01Stock}`);
+      menu();    
+    }
+  }
 }
-else if (numberTwo == 0) {
-    alert('No se puede dividir por Cero!');
+
+function perfumina(){
+  perfPurchase = parseInt(prompt(`Ingrese cantidad a comprar, precio unidad: $ ${perfProd01Price}`));
+  if(perfPurchase === 0 ){
+    alert("No se ha seleccionado ninguna cantidad");
+    menu();
+  }
+  else{
+    if (perfPurchase <= perfProd01Stock){
+      perfProd01Stock -= perfPurchase; // reduzco cantidad a comprar del stock
+      totalAmountProd += perfPurchase; // agrego la cantidad de productos totales
+      montoPerfu = perfPurchase * perfProd01Price;
+      alert(`Gracias por comprar ${perfPurchase} Perfuminas`);
+      menu();
+    }
+    else{
+      alert(`No hay suficiente stock para la compra ingrese un valor menor o igual a ${perfProd01Stock}`);
+      menu();    
+    }
+  }
 }
-else {
-    alert('Elegí una opción Valida entre Sumar, Restar, Multiplicar o Dividir');
+
+function checkOut(){
+  if(totalAmountProd === 0){
+    alert("Añada productos al carrito antes del checkout");
+    menu();
+  }else{
+    totalPrice = montoDifu + montoPerfu + montoVelas;
+    alert(`${userName} gracias por tu compra total de: $${totalPrice}!`);
+  }
 }
+
+menu();
