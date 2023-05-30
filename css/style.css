@@ -167,8 +167,30 @@ h3 {
   transition: opacity 1s;
 }
 .main-prod-container div p {
-  border: solid 1px black;
+  /* border: solid 1px black; */
   margin-top: 0.5em;
+}
+.main-prod-container div button {
+  border: solid 1px black;
+  color: black;
+  margin-top: 0.5em;
+}
+.main-prod-container div button active{
+  border: solid 1px black;
+  color: black;
+  margin-top: 0.5em;
+}
+.main-prod-container div button:hover {
+  background-color: #817575;
+  color: #f5f0eb;
+  border: solid 1px black;
+  opacity: 100%;
+  transition: opacity 1s;
+}
+.badge {
+  display: flex;
+  text-align: center;
+  align-items: center;
 }
 
 /* Definicion de Variable */
