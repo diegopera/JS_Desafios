@@ -134,7 +134,10 @@ function login() {
         const btnLogin = document.getElementById("loginBtn");
         btnLogin.addEventListener("click", () => {
             let username = document.getElementById("loginMail").value;
-            if (username.includes("@")) {
+            let password = document.getElementById("loginPass").value;
+            if (username === "admin" || password === "admin") {
+                window.open("./html/adminProd.html", "_self");
+            } else if (username.includes("@")) {
                 sessionStorage.setItem("username", username);
                 sessionStorage.setItem("loginSucc", true);
                 mainLogin.remove(div);
@@ -145,8 +148,8 @@ function login() {
                 let inputDiv = document.createElement("span");
                 inputDiv.classList.add("badge", "bg-danger");
                 inputDiv.innerText += `
-                Ingrese el usuario correctamente
-                `;
+                    Ingrese el usuario correctamente
+                    `;
                 loginForm.appendChild(inputDiv);
             }
         });
@@ -205,7 +208,6 @@ btnEmptyCart.addEventListener("click", () => {
     localStorage.clear();
     alert("Carrito Eliminado");
     location.reload();
-    listarProductos();
 });
 
 btnCheckOut.addEventListener("click", (e) => {
@@ -213,42 +215,9 @@ btnCheckOut.addEventListener("click", (e) => {
     cartCheckoutStorage = localStorage.getItem("cart");
     if (cartCheckoutStorage) {
         cartCheckout = JSON.parse(cartCheckoutStorage);
-        // btnCheckOut.href = "./html/cart.html";
         window.open("./html/cart.html", "_self");
     } else {
         alert("El carrito esta vacio");
-        listarProductos();
+        location.reload();
     }
-    const totalAmount = cartCheckout.reduce((acum, item) => acum + item.cartTotal, 0);
-    // mainProdCartContainer.appendChild(cartCheckOutList);
-    // cartCheckout.forEach((item) => {
-    //     let divMainCart = document.createElement("div");
-    //     divMainCart.classList.add("row", "carrito-item");
-    //     div.innerHTML += `
-    //         <div class="col">
-    //             <p>${item.cartProdName}</p>
-    //         </div>
-    //         <div class="col">
-    //             <div class="input-group mb-3">
-    //                 <span class="input-group-text">$</span>
-    //                 <input type="text" class="form-control" aria-label="Amount" value="${item.cartTotal}">
-    //             </div>
-    //         </div> 
-    //         `;
-    //     mainProdCartContainer.appendChild(divMainCart);
-    // });
-    // alert("A ponerse con: $" + totalAmount);
-    // localStorage.clear();
-    // location.reload();
-    // listarProductos();
-    // cartCheckout.forEach((item) => {
-    //    let totalAmount = item.cartProdPrice * item.cartProdQty;
-    // let message = `
-    // ID: ${item.idProd}
-    // Nombre: ${item.cartProdName}
-    // Comprados: ${item.cartProdQty}
-    // Total: $${totalAmount}
-    // `;
-    // console.log(message);
-    // });
 });

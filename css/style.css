@@ -16,15 +16,6 @@
   font-size: 1em;
 }
 
-/* Definicion de Variable */
-/* Definicion de Variable */
-/* Extenciones */
-.prod-container, .footer-container, .main-links li, .logo-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 /* Estilo al titulo / logo de la marca */
 h1 {
   font-family: "Quicksand";
@@ -48,21 +39,6 @@ h1 {
   -o-transform: rotateY(360deg);
   -moz-transform: rotateY(360deg);
   -ms-transform: rotateY(360deg);
-}
-
-/* Extenciones */
-.prod-container, .footer-container, .main-links li, .logo-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* Definicion de Variable */
-/* Extenciones */
-.prod-container, .footer-container, .main-links li, .logo-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 /* Estilos NavBar */
@@ -112,9 +88,10 @@ h1 {
   border-radius: 20px;
 }
 
-/* Definicion de Variable */
-/* Extenciones */
-.prod-container, .footer-container, .logo-container, .main-links li {
+.prod-container,
+.footer-container,
+.logo-container,
+.main-links li {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -144,14 +121,6 @@ h3 {
   font-size: 10px;
 }
 
-/* Extenciones */
-.prod-container, .logo-container, .main-links li, .footer-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* Definicion de Variable */
 /* Estilos para html de productos */
 .main-prod-container {
   padding-bottom: 2em;
@@ -175,7 +144,7 @@ h3 {
   color: black;
   margin-top: 0.5em;
 }
-.main-prod-container div button active{
+.main-prod-container div button active {
   border: solid 1px black;
   color: black;
   margin-top: 0.5em;
@@ -190,14 +159,6 @@ h3 {
 .badge {
   display: flex;
   text-align: center;
-  align-items: center;
-}
-
-/* Definicion de Variable */
-/* Extenciones */
-.logo-container, .main-links li, .footer-container, .prod-container {
-  display: flex;
-  flex-direction: column;
   align-items: center;
 }
 
@@ -226,12 +187,12 @@ h3 {
   font-size: 20px;
 }
 
-/* Definicion de Variable */
-/* Extenciones */
-.logo-container, .main-links li, .footer-container, .prod-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.notifQty {
+  font-weight: bolder;
+  color: green;
+  font-size: 25px;
+  /* border: solid 2px black;
+  border-radius: 75%; */
 }
 
 /* Estilos pagina cursos */
@@ -247,14 +208,6 @@ h3 {
   text-align: left;
 }
 
-/* Definicion de Variable */
-/* Extenciones */
-.logo-container, .main-links li, .footer-container, .prod-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 /* Estilos pagina nosotros*/
 .about-container-box {
   text-align: center;
@@ -263,4 +216,19 @@ h3 {
   margin: 2em 2em 2em 2em;
 }
 
-/*# sourceMappingURL=style.css.map */
+.container-admin-prod {
+  display: flex;
+  flex-direction: column;
+  /* margin-left: 15%;
+  margin-right: 15%; */
+  align-items: center;
+}
+
+.card-header {
+  text-align: center;
+  color: black;
+  font-size: 20px;
+  font-weight: 500;
+  border: solid 1px black;
+  border-radius: 50%;
+}
