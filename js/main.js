@@ -11,9 +11,13 @@ const productos = [
 const loginStatus = sessionStorage.getItem("loginSucc");
 if (loginStatus) {
   username = sessionStorage.getItem("username")
-  const loginName = document.getElementById("loginRegister").innerText = `${username}`;
+  document.getElementById("loginRegister").innerText = `${username}`;
 }
 
-// mainHTML();
+const cartExist = localStorage.getItem("cart");
+if (cartExist) {
+  carrito = JSON.parse(cartExist);
+  btnShowCart.innerText = carrito.length + " Items";
+}
 
 listarProductos();
