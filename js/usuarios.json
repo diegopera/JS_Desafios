@@ -1,0 +1,14 @@
+[
+    {
+        "username": "carlos.gonzalez@gmail.com",
+        "password": "messi2022",
+        "nombre": "Carlos",
+        "apellido": "Gonzalez"
+    },
+    {
+        "username": "cecilia.martinez@hotmail.com",
+        "password": "messiteamo",
+        "nombre": "Cecilia",
+        "apellido": "Martinez"
+    }
+]

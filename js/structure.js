@@ -19,7 +19,20 @@ class AddCart {
         this.cartProdQty = cartProdQty;
         this.cartTotal = cartTotal;
     }
-}
+};
+
+const getProductsArray = async () => {
+    const response = await fetch('./js/productos.json');
+    const data = await response.json();
+    productos = data;
+    listarProductos();
+};
+const getUsersArray = async () => {
+    const response = await fetch('./js/usuarios.json');
+    const data = await response.json();
+    userArray = data;
+    return;
+};
 
 function listarProductos() {
     productos.forEach((item) => {
@@ -29,7 +42,6 @@ function listarProductos() {
         }).format(item.prodPrice);
         let div = document.createElement("div");
         div.classList.add("col-lg-3", "col-md-6", "col-s-12", "prod-container");
-        // div.setAttribute("id", 'list-products');
         div.innerHTML += `
           <img src="./media/product-${item.id}.webp" alt="${item.prodName}" width="120" height="340">
           <p id="${item.id}-p"><b>${item.prodName}</b> Stock Disponible: <b>${item.prodStock}</b></p>
@@ -77,7 +89,7 @@ function listarProductos() {
             };
         })
     });
-}
+};
 
 function addToCart(prodID, prodQtySel, prodSelPrice, prodSelName) {
     const cartFind = carrito.some((cartItem) => cartItem.idProd === prodID);
@@ -122,6 +134,10 @@ function showCart() {
     modalHeader.append(modalClose);
 
     carrito.forEach((item) => {
+        const cartItemPriceARS = new Intl.NumberFormat("es-AR", {
+            style: "currency",
+            currency: "ARS",
+        }).format(item.cartTotal);
         let carritoContent = document.createElement("div");
         carritoContent.className = "modal-body";
         carritoContent.innerHTML = `
@@ -130,7 +146,7 @@ function showCart() {
                 ${item.cartProdName}
             </div>
              <div class="card-body">
-                <h5 class="card-title">Cantidad: ${item.cartProdQty} Total: ${item.cartTotal}</h5>
+                <h5 class="card-title">Cantidad: ${item.cartProdQty} Total: ${cartItemPriceARS}</h5>
                 <a id="${item.idProd}-del" href="" class="btn btn-primary text-center btn-del-cart">Eliminar</a>
             </div>    
         </div>
@@ -157,6 +173,15 @@ function showCart() {
                 if (result.isConfirmed) {
                     const delCartId = carrito.findIndex(prod => prod.idProd === item.idProd);
                     carrito.splice(delCartId, 1);
+                    productos.map((productItem) => {
+                        if (productItem.id === item.idProd) {
+                            productItem.prodStock += item.cartProdQty;
+                            document.getElementById(`${productItem.id}-p`).innerHTML = `<b>${productItem.prodName}</b> Stock Disponible: <b>${productItem.prodStock}</b>`;
+                            return productItem;
+                        } else {
+                            return productItem;
+                        };
+                    });
                     Swal.fire({
                         icon: 'success',
                         title: 'Borrado!',
@@ -164,8 +189,15 @@ function showCart() {
                         confirmButtonColor: '#817575',
                         background: '#f5f0eb',
                     });
-                    btnShowCart.innerText = carrito.length + " Items";
-                    localStorage.setItem("cart", JSON.stringify(carrito));
+                    if (carrito.length === 0) {
+                        btnShowCart.innerText = "Carrito";
+                        localStorage.clear();
+                        return;
+                    } else {
+                        btnShowCart.innerText = carrito.length + " Items";
+                        localStorage.setItem("cart", JSON.stringify(carrito));
+                        return;
+                    }
                 } else {
                     Swal.fire({
                         icon: 'warning',
@@ -229,10 +261,10 @@ function showCart() {
 function login() {
     const loginStatus = sessionStorage.getItem("loginSucc");
     if (loginStatus) {
-        username = sessionStorage.getItem("username")
+        nombre = sessionStorage.getItem("Nombre")
         Swal.fire({
             icon: 'warning',
-            text: `Gracias por pasar ${username}`,
+            text: `Gracias por pasar ${nombre}`,
             confirmButtonColor: '#817575',
             background: '#f5f0eb',
         });
@@ -288,17 +320,47 @@ function login() {
       </div>
           `;
         mainLogin.appendChild(div);
+        getUsersArray();
         const btnLogin = document.getElementById("loginBtn");
-        btnLogin.addEventListener("click", () => {
+        btnLogin.addEventListener("click", (e) => {
+            e.preventDefault();
             let username = document.getElementById("loginMail").value;
             let password = document.getElementById("loginPass").value;
-            if (username === "admin" || password === "admin") {
+            if (username === "admin" && password === "admin") {
                 window.open("./html/adminProd.html", "_self");
             } else if (username.includes("@")) {
-                sessionStorage.setItem("username", username);
-                sessionStorage.setItem("loginSucc", true);
-                mainLogin.innerHTML = ''
-                listarProductos();
+                userArray.forEach((user) => {
+                    if (user.username === username && user.password === password) {
+                        sessionStorage.setItem("loginSucc", true);
+                        sessionStorage.setItem("Nombre", user.nombre);
+                        sessionStorage.setItem("Apellido", user.apellido);
+                        sessionStorage.setItem("username", user.username);
+                        return;
+                    }
+                });
+                let loginSucc = sessionStorage.getItem("loginSucc");
+                let nombre = sessionStorage.getItem("Nombre");
+                if (loginSucc) {
+                    Swal.fire({
+                        icon: 'success',
+                        text: `Bienvenido ${nombre} :)`,
+                        confirmButtonColor: '#817575',
+                        background: '#f5f0eb',
+                    });
+                    mainLogin.innerHTML = '';
+                    document.getElementById("loginRegister").innerText = `${username}`;
+                    listarProductos();
+                    return;
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ups!',
+                        text: 'Usuario o clave incorrectos',
+                        confirmButtonColor: '#817575',
+                        background: '#f5f0eb',
+                    });
+                    return;
+                };
             } else {
                 let loginForm = document.getElementById("loginHTML");
                 let inputDiv = document.createElement("span");
@@ -373,7 +435,6 @@ function login() {
                         sessionStorage.setItem("Apellido", apellido);
                         mainLogin.innerHTML = '';
                         document.getElementById("loginRegister").innerText = `${mail}`;
-                        // location.reload();
                         listarProductos();
                     }
                 })();
@@ -413,7 +474,7 @@ btnEmptyCart.addEventListener("click", (e) => {
                     cartRetStock = cartItem.cartProdQty;
                 });
                 productos.map((productItem) => {
-                    if (productItem.id === cartRetID){
+                    if (productItem.id === cartRetID) {
                         productItem.prodStock += cartRetStock;
                         document.getElementById(`${productItem.id}-p`).innerHTML = `<b>${productItem.prodName}</b> Stock Disponible: <b>${productItem.prodStock}</b>`;
                         return productItem;
