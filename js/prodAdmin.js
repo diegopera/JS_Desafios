@@ -15,6 +15,13 @@ class AddProd {
     }
 };
 
+const getProductsArray = async () => {
+    const response = await fetch('../js/productos.json');
+    const data = await response.json();
+    productos = data;
+    listarProductos();
+};
+
 function listarProductos() {
     productos.forEach((item) => {
         const itemPriceARS = new Intl.NumberFormat("es-AR", {
